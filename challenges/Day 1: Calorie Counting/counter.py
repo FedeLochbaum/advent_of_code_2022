@@ -18,8 +18,8 @@ print('Part 1: ', maximum)
 
 ## Part 2
 ## O(n), how the input is too small,
-## I only need to sort the array, which is lineal but is enough good
-## Other optio is to use a priority fixed buffer (where we could void sorting a lineal array)
+## I only need to sort the array, which is lineal and enough good
+## Other option could be to use a priority fixed buffer (where we could void sorting a lineal array)
 
 list = []
 current_mount_2 = 0
