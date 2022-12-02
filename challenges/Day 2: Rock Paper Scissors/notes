@@ -1,0 +1,28 @@
+-- Input
+-- A -> B, B -> C, C -> A
+
+Per each line: 
+
+Column 1 (what your opponent is going to play): 
+  - A: Rock
+  - B: Paper
+  - C: Scissors
+
+Column 2 (what you should play in response): 
+  - X: Rock
+  - Y: Paper
+  - Z: Scissors
+
+- The total score is the sum of your scores for each round
+  - The score for a single round is the score for the shape you selected (1 for Rock, 2 for Paper, and 3 for Scissors)
+  - + The score for the outcome of the round (0 if you lost, 3 if the round was a draw, and 6 if you won)
+
+Idea: Count the total score if you follow the input 
+
+Second part
+
+The second column sayss how the round finishs
+
+X -> You need to lose
+Y -> You need to draw
+Z -> You need to win

@@ -5,3 +5,5 @@
 ## Solutions
 
 [Day 1: Calorie Counting](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%201:%20Calorie%20Counting/counter.py)
+
+[Day 2: Rock Paper Scissors](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%202:%20Rock%20Paper%20Scissors/scoring.py)
