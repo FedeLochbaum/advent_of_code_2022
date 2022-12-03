@@ -1,0 +1,12 @@
+## Input
+
+- Every item type is identified by a single lowercase or uppercase letter
+- The first list represent the items in the first compartment and the second one to the other ( 1/2 and 1/2 )
+- To help prioritize item rearrangement, every item type can be converted to a priority:
+
+Lowercase item types a through z have priorities 1 through 26.
+Uppercase item types A through Z have priorities 27 through 52.
+
+Part 2
+
+- Every set of three lines in your list corresponds to a single group
