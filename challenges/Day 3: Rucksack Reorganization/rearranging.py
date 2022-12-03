@@ -1,4 +1,3 @@
-import string
 input_path = 'advent_of_code_2022/challenges/Day 3: Rucksack Reorganization/input'
 
 # Part 1
