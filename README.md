@@ -8,4 +8,4 @@
 
 [Day 2: Rock Paper Scissors](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%202:%20Rock%20Paper%20Scissors/scoring.py)
 
-[Day 3: Rucksack Reorganization](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%203:%20Rucksack%20Reorganization/scoring.py)
+[Day 3: Rucksack Reorganization](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%203:%20Rucksack%20Reorganization/rearranging.py)
