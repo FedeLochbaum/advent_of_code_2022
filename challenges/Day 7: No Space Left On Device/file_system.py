@@ -38,7 +38,6 @@ class Dir(FileElement):
     return array
 
 root = Dir('/', None, None)
-
 with open(input_path) as f:
   folder = root
   for line in f:
@@ -48,8 +47,7 @@ with open(input_path) as f:
       if (splited[1] == 'cd'):
         if (splited[2] == '..'): folder = folder.parent; continue
         else:
-          if (not folder.has_elem(splited[2])):
-            folder.add_elem(Dir(splited[2], folder, None))
+          if (not folder.has_elem(splited[2])): folder.add_elem(Dir(splited[2], folder, None))
           folder = folder.elem(splited[2])
       continue
     
@@ -61,12 +59,7 @@ with open(input_path) as f:
   for i in root.files:
     r = root.files[i].get_size()
 
-total_disk_space = 70000000 
-needed_space = 30000000
-ocuppied_space = root.get_size()
-free_space = 70000000 - ocuppied_space
-delete_as_minimum = needed_space - free_space
-
+delete_as_minimum = 30000000 - (70000000 - root.get_size())
 dirs_to_delete = root.find_directories(lambda dir: dir.is_dir() and dir.get_size() >= delete_as_minimum, [])
 
 print(min(e.get_size() for e in dirs_to_delete))
