@@ -15,3 +15,5 @@
 [Day 5: Supply Stacks](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%205:%20Supply%20Stacks/crane_operator.py)
 
 [Day 6: Tuning Trouble](https://github.com/FedeLochbaum/advent_of_code_2022/challenges/Day%206:%20Tuning%20Trouble/datastream.py)
+
+[Day 7: No Space Left On Device](https://github.com/FedeLochbaum/advent_of_code_2022/challenges/Day%207:%20No%20Space%20Left%20On%20Device/file_system.py))
