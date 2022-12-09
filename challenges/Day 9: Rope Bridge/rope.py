@@ -1,6 +1,6 @@
 input_path = 'advent_of_code_2022/challenges/Day 9: Rope Bridge/input'
 
-visited = set()
+visited = {}
 head = [0, 0]
 tail = [0, 0]
 
@@ -30,13 +30,13 @@ def next_tail(h, t): return (
 def should_move(h, t): return abs(h[0] - t[0]) == 2 or abs(h[1] - t[1]) == 2
 
 with open(input_path) as f:
-  visited.add(''.join(str(e) for e in tail))
+  visited[str(tail)] = True
   for line in f:
     side, count = line[:-1].split(' ')
     for _ in range(int(count)):
       head = next_head[side](head)
       if (should_move(head, tail)):
         tail = next_tail(head, tail)
-        visited.add(''.join(str(e) for e in tail))
+        if (str(tail) not in visited): visited[str(tail)] = True
 
 print('Part 1: ', visited.__len__())
