@@ -21,3 +21,5 @@
 [Day 8: Treetop Tree House](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%208:%20Treetop%20Tree%20House/forest.py)
 
 [Day 9: Rope Bridge](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%209:%20Rope%20Bridge/rope.py)
+
+[Day 10: Cathode-Ray Tube](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2010:%20Cathode-Ray%20Tube/cpu.py)
