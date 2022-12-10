@@ -1,9 +1,9 @@
-input_path = 'advent_of_code_2022/challenges/Day 10: Cathode-Ray Tube/input1'
+input_path = 'advent_of_code_2022/challenges/Day 10: Cathode-Ray Tube/input'
 
 state = { 'X': 1, 'cycle': 0, 'queue': [], 'signal_strength': 0 }
 
 add_process = lambda inst: { 'inst': [inst[0], int(inst[1])], 'wait': 2 }
-noop_process = lambda inst: { 'inst': [inst[0]], 'wait': 0 }
+noop_process = lambda inst: { 'inst': [inst[0]], 'wait': 1 }
 
 def queue_inst(inst):
   process = (add_process if (inst[0] == 'addx') else noop_process)(inst)
@@ -22,9 +22,9 @@ def execute_inst(state):
 def cycle():
   if (state['cycle'] in [20, 60, 100, 140, 180, 220]):
     state['signal_strength'] += (state['X'] * state['cycle'])
-
   execute_inst(state)
   update_head(state)
+
   state['cycle'] += 1
 
 with open(input_path) as f:
