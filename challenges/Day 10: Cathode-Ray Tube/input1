@@ -1,5 +1,5 @@
-addx 15 (agrega 1)
-addx -11 ()
+addx 15
+addx -11
 addx 6
 addx -3
 addx 5
