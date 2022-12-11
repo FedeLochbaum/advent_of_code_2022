@@ -1,4 +1,4 @@
-input_path = 'advent_of_code_2022/challenges/Day 11: Monkey in the Middle/input'
+input_path = 'advent_of_code_2022/challenges/Day 11: Monkey in the Middle/input0'
 
 current_monkey = None
 monkeys = []
@@ -22,9 +22,9 @@ class Monkey():
   def get_item(self, item): self.items.append(item)
   def play(self, monkeys):
     for _ in range(self.items.__len__()):
-      item = int(self.apply_op(self.items.pop(0)) / 3)
-      throw_to = self.if_true if (item % self.divisible_test) == 0 else self.if_false
-      monkeys[throw_to].get_item(item)
+      worry_level = self.apply_op(self.items.pop(0))
+      throw_to = self.if_true if (worry_level % self.divisible_test) == 0 else self.if_false
+      monkeys[throw_to].get_item(worry_level)
       self.items_inspected += 1
 
 def round():
@@ -43,5 +43,5 @@ with open(input_path) as f:
     if (splited[0] == 'If' and splited[1] == 'false:'): current_monkey.if_false = int(splited[-1]); continue
 
 monkeys.append(current_monkey)
-for i in range(20): round()
+for i in range(10000): round()
 print(list(map(lambda m: m.get_items_inspected(), monkeys)))
