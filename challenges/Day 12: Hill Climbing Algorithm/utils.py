@@ -79,9 +79,12 @@ def floyd_warshall(graph, rows, cols):
   points = [[r, c] for c in range(cols) for r in range(rows)]
   distance = get_distance_matrix(graph, points)
 
-  for k in points:
-    for i in points:
-      for j in points:
-        point_i = point_by(i[0], i[1]); point_k = point_by(k[0], k[1]); point_j = point_by(j[0], j[1])
+  nv = rows * cols
+  for _k in range(nv):
+    k = points[_k]; point_k = point_by(k[0], k[1])
+    for _i in range(nv):
+      i = points[_i]; point_i = point_by(i[0], i[1])
+      for _j in range(nv):
+        j = points[_j] ; point_j = point_by(j[0], j[1])
         distance[point_i][point_j] = min(distance[point_i][point_j], distance[point_i][point_k] + distance[point_k][point_j])
   return distance
