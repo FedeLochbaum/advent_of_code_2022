@@ -6,15 +6,17 @@ point_by = lambda row, col: f'{row}' + ',' + f'{col}'
 def dict_from_file(input_path):
   array = []
   goal = None
+  all_as = []
   with open(input_path) as f:
     for line in f:
       row = []
       for i in range(line[:-1].__len__()):
         if (line[i] == 'E'): goal = [array.__len__(), i]
+        if (line[i] == 'S' or line[i] == 'a'): all_as.append([array.__len__(), i])
         row.append(weight_of(line[i]))
       array.append(row)
 
-  return array, goal
+  return array, goal, all_as
 
 def value(char): return (ord(char) & 31) + (26 if char.isupper() else 0)
 
