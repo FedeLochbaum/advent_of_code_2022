@@ -63,28 +63,22 @@ def dijkstra(graph, row, col, initial, final):
   return distance[final]
 
 
-def get_distance_matrix(graph, points):
+def get_distance_matrix(graph, points, nv):
   distance = {}
-  for p1 in points:    
-    point_1 = point_by(p1[0], p1[1])
-    distance[point_1] = {}
-    for p2 in points:
-      point_2 = point_by(p2[0], p2[1])
-      _distance = 1 if p2 in neighbors(p1[0], p1[1]) and (graph[p2[0]][p2[1]] <= graph[p1[0]][p1[1]] + 1) else float('inf')
-      distance[point_1][point_2] = _distance
+  for i1 in range(nv):
+    p1 = points[i1]
+    distance[i1] = {}
+    for i2 in range(nv):
+      p2 = points[i2]
+      distance[i1][i2] = 1 if p2 in neighbors(p1[0], p1[1]) and (graph[p2[0]][p2[1]] <= graph[p1[0]][p1[1]] + 1) else float('inf')
   
   return distance
 
-def floyd_warshall(graph, rows, cols):
-  points = [[r, c] for c in range(cols) for r in range(rows)]
-  distance = get_distance_matrix(graph, points)
+def floyd_warshall(graph, points):
+  distance = get_distance_matrix(graph, points, points.__len__())
 
-  nv = rows * cols
-  for _k in range(nv):
-    k = points[_k]; point_k = point_by(k[0], k[1])
-    for _i in range(nv):
-      i = points[_i]; point_i = point_by(i[0], i[1])
-      for _j in range(nv):
-        j = points[_j] ; point_j = point_by(j[0], j[1])
-        distance[point_i][point_j] = min(distance[point_i][point_j], distance[point_i][point_k] + distance[point_k][point_j])
+  for k in range(points.__len__()):
+    for i in range(points.__len__()):
+      for j in range(points.__len__()):
+        distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])
   return distance
