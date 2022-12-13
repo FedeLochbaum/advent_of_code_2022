@@ -27,3 +27,5 @@
 [Day 11: Monkey in the Middle](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2011:%20Monkey%20in%20the%20Middle/monkeys.py)
 
 [Day 12: Hill Climbing Algorithm](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2012:%20Hill%20Climbing%20Algorithm/shortest_path.py)
+
+[Day 13: Distress Signal](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2013:%20Distress%20Signal/distress_signal.py)
