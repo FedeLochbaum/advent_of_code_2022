@@ -1,5 +1,5 @@
 input_path = 'advent_of_code_2022/challenges/Day 12: Hill Climbing Algorithm/input0'
-from utils import floyd_warshall, dict_from_file, point_by
+from utils import floyd_warshall, dict_from_file
 
 graph, goal_pos, all_as = dict_from_file(input_path)
 
