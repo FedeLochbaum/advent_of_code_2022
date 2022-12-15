@@ -1,10 +1,14 @@
-input_path = 'advent_of_code_2022/challenges/Day 14: Regolith Reservoir/input0'
+input_path = 'advent_of_code_2022/challenges/Day 14: Regolith Reservoir/input'
 
-starting_sand_point = [500, 0]
-max_row = 10; max_col = 550
-_min_col = float('inf'); _max_col = 0; _min_row = float('inf'); _max_row = 0
+starting_sand_point = [0, 500]
+max_row = 200; max_col = 600
+_min_col = float('inf'); _max_col = 0; _min_row = 0; _max_row = 0
 
 cave = [['.' for _ in range(max_col)] for _ in range(max_row)] # Original cave
+
+# Print cave
+def print_cave():
+  for r in range(_min_row, _max_row + 1): print(''.join([cave[r][c] for c in range(_min_col, _max_col + 1)]))
 
 def insert_blocks(ps):
   for p in ps: cave[p[0]][p[1]] = '#'
@@ -13,6 +17,45 @@ def middle_points(p1, p2): return (
   [[p1[0], i] for i in range(min(p1[1], p2[1] + 1), max(p1[1], p2[1] + 1))] if p1[0] == p2[0] else
   [[i, p1[1]] for i in range(min(p1[0], p2[0] + 1), max(p1[0], p2[0] + 1))]
 )
+
+def is_valid_point(point, row_limits, col_limits):
+  if (point[0] not in range(row_limits[0], row_limits[1])): return False
+  if (point[1] not in range(col_limits[0], col_limits[1])): return False
+
+  return True
+
+def is_out(point):
+  if (point[0] < 0 or point[0] >= max_row): return True
+  if (point[1] < 0 or point[1] >= max_col): return True
+
+  return False
+
+def not_blocked(point):
+  # if (is_out(point)): return True
+
+  return cave[point[0]][point[1]] == '.'
+
+def next_sand_point(point):
+  next = [point[0] + 1, point[1]]
+  if (not_blocked(next)): return next
+  
+  next = [point[0] + 1, point[1] - 1]
+  if (not_blocked(next)): return next
+
+  next = [point[0] + 1, point[1] + 1]
+  if (not_blocked(next)): return next
+
+  return point
+
+def simulate_next_sand_unit():
+  point = starting_sand_point # The first point is [0, 500]
+  next_point = next_sand_point(point) # Calculate the next fall position
+
+  while(point != next_point and not is_out(point)):
+    point = next_point
+    next_point = next_sand_point(point)
+
+  return point # When the unit sand is not to move anymore, just return the point
 
 with open(input_path) as f:
   for line in f:
@@ -27,9 +70,30 @@ with open(input_path) as f:
       cave[ranges[i][0]][ranges[i][1]] = '#'
       insert_blocks(to_insert)
 
-print('min_row: ', _min_row, ' max_row: ', _max_row)
-print('min_col: ', _min_col, ' max_col: ', _max_col)
+row_limits = [_min_row, _max_row + 1]; col_limits = [_min_col, _max_col + 1]
 
-# Print cave
-for r in range(_min_row, _max_row + 1):
-  print([cave[r][c] for c in range(_min_col, _max_col + 1)])
+def move_sand():
+  next_point = simulate_next_sand_unit() # Get the next position
+  if (is_out(next_point)): return False, next_point
+  if (not is_valid_point(next_point, row_limits, col_limits)): return False, next_point # If the next position leave out of the range, stop
+  if (next_point == starting_sand_point and cave[next_point[0]][next_point[1]] == 'o'): return False, next_point
+
+  cave[next_point[0]][next_point[1]] = 'o'
+  return True, next_point
+
+# Simulate sand unit
+unit = 0;
+while(True):
+  print('unit: ', unit)
+  if (not move_sand()): break
+  unit +=1
+
+# print_cave()
+
+# To debug the sand
+# for i in range(25):
+#   r, point = move_sand()
+#   print_cave()
+#   print('point: ', point)
+
+# print('Part 1: ', unit)
