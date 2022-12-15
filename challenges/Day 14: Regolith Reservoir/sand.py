@@ -1,7 +1,7 @@
-input_path = 'advent_of_code_2022/challenges/Day 14: Regolith Reservoir/input0'
+input_path = 'advent_of_code_2022/challenges/Day 14: Regolith Reservoir/input'
 
 starting_sand_point = [0, 500]
-max_row = 200; max_col = 600
+max_row = 1000; max_col = 1000
 _min_col = float('inf'); _max_col = 0; _min_row = 0; _max_row = 0
 row_floor = 0
 
@@ -9,9 +9,8 @@ cave = [['.' for _ in range(max_col)] for _ in range(max_row)] # Original cave
 
 # Print cave
 def print_cave():
-  # for r in range(_min_row, _max_row + 1): print(' '.join([cave[r][c] for c in range(_min_col, _max_col + 1)]))
   for r in range(_min_row, row_floor + 1):
-    if (r == row_floor): print(''.join(['F'] * ((_max_col + 10) - (_min_col - 6)) )); continue
+    if (r == row_floor): print(''.join(['#'] * ((_max_col + 10) - (_min_col - 6)) )); continue
 
     print(''.join([cave[r][c] for c in range(_min_col - 6, _max_col + 10)]))
 
@@ -84,6 +83,7 @@ def move_sand():
   next_point = simulate_next_sand_unit() # Get the next position
   if (next_point == starting_sand_point and cave[next_point[0]][next_point[1]] == 'o'): return False, next_point
   
+  if (is_out(next_point)): return False, next_point
   cave[next_point[0]][next_point[1]] = 'o'
     
   return True, next_point
@@ -94,12 +94,6 @@ while(True):
   res, point = move_sand()
   if (not res): break
   unit +=1
-
-# To debug the sand
-# for i in range(93):
-#   r, point = move_sand()
-#   print_cave()
-#   print('point: ', point)
 
 print('Part 2: ', unit)
 print_cave()
