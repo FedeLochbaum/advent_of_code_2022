@@ -4,6 +4,8 @@ sensors = {} # sensor_point => [becon_point, distance]
 beacons = {} # x: { y: true | Nothinng }
 min_x = float('inf'); max_x = 0
 
+# divide and conquer ?
+
 # |x1 - x2| + |y1 - y2|
 def manhattan_distance(p1, p2): return abs(p1[1] - p2[1]) + abs(p1[0] - p2[0])
 
@@ -21,8 +23,6 @@ with open(input_path) as f:
     min_x = min(min_x, x_sensor)
     max_x = max(max_x, x_sensor)
 
-    sensor_point = [y_sensor, x_sensor]
-
     # Beacon
     beacons_parts = parts[1].split(', ')
     x_beacon_str = beacons_parts[0].split('=')
@@ -33,12 +33,15 @@ with open(input_path) as f:
     min_x = min(min_x, x_beacon)
     max_x = max(max_x, x_beacon)
 
-    beacon_point = [y_beacon, x_beacon]
+    # Points
+    sensor_point = [x_sensor, y_sensor] # (x, y)
+    beacon_point = [x_beacon, y_beacon] # (x, y)
 
-    if (y_beacon_str[-1] not in beacons): beacons[y_beacon_str[-1]] = {}
-    beacons[y_beacon_str[-1]][x_beacon_str[-1]] = True
+    if (x_beacon_str[-1] not in beacons): beacons[x_beacon_str[-1]] = {}
 
-    sensors[''.join([y_sensor_srt[-1], ',', x_sensor_srt[-1]])] = [beacon_point, manhattan_distance(sensor_point, beacon_point)]
+    beacons[x_beacon_str[-1]][y_beacon_str[-1]] = True
+
+    sensors[''.join([x_sensor_srt[-1], ',', y_sensor_srt[-1]])] = [beacon_point, manhattan_distance(sensor_point, beacon_point)]
 
 def is_invalid_point_for_beacon(point):
   for sensor in sensors.keys():
@@ -49,13 +52,13 @@ def is_invalid_point_for_beacon(point):
   return False
 
 count = 0
-row_to_check = 2000000 # how many positions cannot contain a beacon?
-for c in range(min_x, max_x + 1):
-  if (str(row_to_check) in beacons and str(c) in beacons[str(row_to_check)]): continue # There is already a bacon here
-  if (''.join([str(row_to_check), ',', str(c)]) in sensors): continue
+y = 2000000 # how many positions cannot contain a beacon?
+for x in range(min_x, max_x + 1):
+  if (str(x) in beacons and str(y) in beacons[str(x)]): continue # There is already a bacon here
+  if (''.join([str(x), ',', str(y)]) in sensors): continue
 
   # Check with the rest of sensors
-  if (is_invalid_point_for_beacon([row_to_check, c])):  count += 1;
+  if (is_invalid_point_for_beacon([x, y])):  count += 1;
 
 print('Part 1: ', count)
 
