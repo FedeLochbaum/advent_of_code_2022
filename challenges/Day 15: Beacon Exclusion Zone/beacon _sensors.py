@@ -4,8 +4,6 @@ sensors = {} # sensor_point => [becon_point, distance]
 beacons = {} # x: { y: true | Nothinng }
 min_x = float('inf'); max_x = 0
 
-# divide and conquer ?
-
 # |x1 - x2| + |y1 - y2|
 def manhattan_distance(p1, p2): return abs(p1[1] - p2[1]) + abs(p1[0] - p2[0])
 
@@ -43,25 +41,19 @@ with open(input_path) as f:
 
     sensors[''.join([x_sensor_srt[-1], ',', y_sensor_srt[-1]])] = [beacon_point, manhattan_distance(sensor_point, beacon_point)]
 
-def is_invalid_point_for_beacon(point):
-  for sensor in sensors.keys():
-    sensor_point = sensor.split(',')
-    dist = manhattan_distance([int(sensor_point[0]), int(sensor_point[1])], point)
-    if (dist <= sensors[sensor][1] and point != sensors[sensor][0]): return True
-
-  return False
-
-count = 0
+counter = {}
 y = 2000000 # how many positions cannot contain a beacon?
-for x in range(min_x, max_x + 1):
-  if (str(x) in beacons and str(y) in beacons[str(x)]): continue # There is already a bacon here
-  if (''.join([str(x), ',', str(y)]) in sensors): continue
 
-  # Check with the rest of sensors
-  if (is_invalid_point_for_beacon([x, y])):  count += 1;
+for sensor in sensors.keys():
+  sensor_point = sensor.split(',')
+  xp = int(sensor_point[0])
+  yp = int(sensor_point[1])
+  partial_distance = abs(yp - y)
+  missing = sensors[sensor][1] - partial_distance
+  if (missing > 0):
+    for x in range(xp - missing, xp + missing):
+      point_key = ''.join([str(x), ',', str(y)])
+      if (point_key in sensors): continue
+      counter[point_key] = True
 
-print('Part 1: ', count)
-
-# 4234241 too low
-# 4271259 too low
-# 4271260 too low
+print('Part 1: ', counter.__len__())
