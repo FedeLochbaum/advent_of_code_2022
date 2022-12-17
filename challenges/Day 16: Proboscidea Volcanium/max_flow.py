@@ -1,4 +1,5 @@
-input_path = 'advent_of_code_2022/challenges/Day 16: Proboscidea Volcanium/input0'
+input_path = 'advent_of_code_2022/challenges/Day 16: Proboscidea Volcanium/input'
+from queue import PriorityQueue
 
 initial_time = 30
 initial_valve = 'AA'
@@ -22,17 +23,20 @@ def possibles_states_from(graph, state):
 
   return states
 
-def max_flow(graph, state):
-  if (state[1] == 0 or (state[4] == count)): return state[2] # cutting
-
-  if (not state in memo):
-    next_states = possibles_states_from(graph, state)
-    _max = max_flow(graph, next_states[0])
-    for s in next_states[1:]:
-      _max = max(_max, max_flow(graph, s))
-    memo[state] = _max
-
-  return memo[state]
+def max_flow(graph, initial_state):
+  pqueue = PriorityQueue()
+  visited = set() # visited states
+  pqueue.put(initial_state)
+  _max = 0
+  while not pqueue.empty():
+    state = pqueue.get_nowait()
+    if (state[1] == 0 or (state[4] == count)): _max = max(_max, state[2]) # cutting
+    else:
+      for s in possibles_states_from(graph, state):
+        if (s not in visited):
+          visited.add(s)
+          pqueue.put(s)
+  return _max
 
 with open(input_path) as f:
   for line in f:
