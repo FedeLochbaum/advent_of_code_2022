@@ -1,0 +1,10 @@
+Valve AA has flow rate=0; to DD, II, BB
+Valve BB has flow rate=13; to CC, AA
+Valve CC has flow rate=2; to DD, BB
+Valve DD has flow rate=20; to CC, AA, EE
+Valve EE has flow rate=3; to FF, DD
+Valve FF has flow rate=0; to EE, GG
+Valve GG has flow rate=0; to FF, HH
+Valve HH has flow rate=22; to GG
+Valve II has flow rate=0; to AA, JJ
+Valve JJ has flow rate=21; to II
