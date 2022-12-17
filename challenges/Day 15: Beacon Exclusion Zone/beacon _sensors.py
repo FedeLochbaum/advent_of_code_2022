@@ -41,19 +41,50 @@ with open(input_path) as f:
 
     sensors[''.join([x_sensor_srt[-1], ',', y_sensor_srt[-1]])] = [beacon_point, manhattan_distance(sensor_point, beacon_point)]
 
-counter = {}
-y = 2000000 # how many positions cannot contain a beacon?
+# Part 1
+def part_1():
+  counter = {}
+  y = 2000000 # how many positions cannot contain a beacon?
 
-for sensor in sensors.keys():
-  sensor_point = sensor.split(',')
-  xp = int(sensor_point[0])
-  yp = int(sensor_point[1])
-  partial_distance = abs(yp - y)
-  missing = sensors[sensor][1] - partial_distance
-  if (missing > 0):
-    for x in range(xp - missing, xp + missing):
-      point_key = ''.join([str(x), ',', str(y)])
-      if (point_key in sensors): continue
-      counter[point_key] = True
+  for sensor in sensors.keys():
+    sensor_point = sensor.split(',')
+    xp = int(sensor_point[0])
+    yp = int(sensor_point[1])
+    partial_distance = abs(yp - y)
+    missing = sensors[sensor][1] - partial_distance
+    if (missing > 0):
+      for x in range(xp - missing, xp + missing):
+        point_key = ''.join([str(x), ',', str(y)])
+        if (point_key in sensors): continue
+        counter[point_key] = True
 
-print('Part 1: ', counter.__len__())
+  print('Part 1: ', counter.__len__())
+
+def possible_points_to_distance(center, radius, max_val, min_val, how_far = 1):
+  vals = []
+  exceeded = radius + how_far
+  for y in range(max(center[1] - exceeded, min_val), min(center[1] + exceeded + 1, max_val)):
+    if (y >= min_val and y <= max_val):
+      missing =  abs(center[1] - y)
+      x_1 = center[0] - exceeded + missing
+      x_2 = center[0] + exceeded - missing
+      if (x_1 >= min_val and x_1 <= max_val): vals.append([x_1, y])
+      if (x_2 >= min_val and x_2 <= max_val): vals.append([x_2, y])
+  return vals
+
+def is_contained(point, _from):
+  for k in list(sensors.keys())[_from:]:
+    sensor_point = k.split(',')
+    d = manhattan_distance([int(sensor_point[0]), int(sensor_point[1])], point)
+    if (d <= sensors[k][1]): return True
+  
+  return False
+
+# Part 2
+_max = 4000000; _min = 0; i = 0;
+key = list(sensors.keys())[2]
+_, distance = sensors[key]
+points = possible_points_to_distance(list(map(int, key.split(','))), distance, _max, _min, 1)
+
+for point in points:
+  if (not is_contained(point, 0)): print('Part 2: ', (point[0] * _max) + point[1]); break
