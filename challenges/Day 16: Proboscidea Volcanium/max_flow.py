@@ -1,4 +1,4 @@
-input_path = 'advent_of_code_2022/challenges/Day 16: Proboscidea Volcanium/input0'
+input_path = 'advent_of_code_2022/challenges/Day 16: Proboscidea Volcanium/input'
 
 initial_time = 26
 initial_valve = 'AA'
@@ -7,7 +7,7 @@ memo = {} # label -> time -> pressure
 rates = {} # label -> flow_rate
 graph = {} # label -> [label]
 count = 0
-initial_state = ((initial_valve, initial_valve), initial_time, 0, 0, 'initial_valve') # Volcano state = ((current_p1, current_p2), missing_time, counter, count_opens, opens)
+initial_state = ((initial_valve, initial_valve), initial_time, 0, 0, initial_valve) # Volcano state = ((current_p1, current_p2), missing_time, counter, count_opens, opens)
 
 def elephant_movements_from_state(state):
   states = []
@@ -27,6 +27,8 @@ def possibles_states_from(graph, state):
   next_t = state[1] - 1
   states = []
 
+  if (next_t < 4): return [] # cutting with branch lvl 15 or fewer
+
   if (next_t == 0): return states
 
   if(rates[state[0][0]] > 0 and state[4].find(state[0][0]) == -1):
@@ -36,7 +38,7 @@ def possibles_states_from(graph, state):
 
   for valve in graph[state[0][0]]:
     if (valve == state[0][1]): continue
-    if (state[4].find(valve) != -1): continue # not sure
+    # if (state[4].find(valve) != -1): continue # not sure
     states.append(((valve, state[0][1]), next_t, state[2], state[3], state[4]))
 
   return states
@@ -53,7 +55,6 @@ def max_flow(graph, state):
       with_help = elephant_movements_from_state(_s)
       for s in with_help:
         _max = max(_max, max_flow(graph, s))
-
     memo[k1] = _max
     memo[k2] = _max
 
