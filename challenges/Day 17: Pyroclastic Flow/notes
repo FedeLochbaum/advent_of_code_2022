@@ -1,0 +1,23 @@
+# INPUT0
+
+# ACÁ EMPIEZA EL PATRON!!! , FIGURA:  1  index:  50  y la iteracion anterior habia sido:  15 ( cada 35 iteraciones )
+
+# con i = 15  -> 25  ( base )
+# con i = 50  -> 78  ( + 53 )
+# con i = 85  -> 131 ( + 53 )
+# con i = 120 -> 184 ( + 53 )
+
+
+# con i = n   -> (((n - 25 / 35) * 53) + 25) -> siempre y cuando n % 35 = 15
+# (((10000 - 15) / 35) * 53) + 25 ( )
+#      ( 285 * 53 ) + 25 + (h(15 + (10000 - 15) % 35)) - h(15) )
+#                  15130 + (h(25) - h(15))
+#                        + (43 - 25 )
+#                        +  18 
+
+# ACÁ EMPIEZA EL PATRON!!! , FIGURA:  1  index:  2360  y la iteracion anterior habia sido:  660 ( cada 1700 iteraciones )
+# con i = 660  -> 1007 ( BASE )
+# con i = 2360 -> 3661 ( +2654 )
+# con i = 4060 -> 6315 ( +2654 )
+# con i = 5760 -> 8969 ( +2654 )
+

@@ -2,7 +2,6 @@ input_path = 'advent_of_code_2022/challenges/Day 17: Pyroclastic Flow/input'
 from Figure import Horizotal, Plus, L, Vertical, Block
 
 game = None
-
 class Tetris:
   def __init__(self, moves):
     self.moves = moves
@@ -23,15 +22,11 @@ class Tetris:
     if (new_floor > self.floor):
       self.floor = new_floor
 
-      # Delete unnecessary points
-      # for k in self.board.keys():
-      #   to_delete = list(filter(lambda y: int(y) < self.floor - 1000, self.board[k]))
-      #   for e in to_delete: del self.board[k][e]
-
-  def play_turn(self):
+  def play_turn(self, index):
     figure = self.next_figure()
     while(True):
       move = self.next_move % self.moves.__len__()
+
       dir = self.moves[move]
       figure.move_to_dir(dir, self.board)
       self.next_move += 1
@@ -53,18 +48,18 @@ class Tetris:
 with open(input_path) as f:
   for line in f: game = Tetris(line[:-1])
 
-rocks = 100000
-for _ in range(rocks): game.play_turn()
+rocks = 1
+for i in range(0, rocks): game.play_turn(i)
 
 print('Part 1: ', game.max_tall())
 
-# for y in reversed(range(-1, game.max_tall() + 1)):
-#   print(' '.join([game.board[str(x)][str(y)] if str(y) in game.board[str(x)] else '.' for x in range(0, 7)]))
+# Part 2 - # Solution
 
+# Each 1700 iterations will repeat the pattern
+# Base height before repetion 1007
+# Pattern -> +2654 each 1700
+# It_pattern -> 1700
+# N = 1000000000000
 
-#   1087248    0.790    0.000    6.099    0.000 Figure.py:18(move_to)
-#    100000    0.045    0.000    0.045    0.000 Figure.py:2(__init__)
-#    593624    0.245    0.000    3.064    0.000 Figure.py:22(can_move_down)
-#    296482    0.124    0.000    1.636    0.000 Figure.py:23(move_left)
-#    297142    0.125    0.000    1.804    0.000 Figure.py:24(move_right)
-#    493624    0.202    0.000    3.109    0.000 Figure.py:25(move_down)
+# H(N) = ((N - BASE / It_pattern) * Pattern) + BASE + REST_DIFF
+# REST_DIFF = H(660 + (N - BASE % It_pattern)) - 1007
