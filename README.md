@@ -33,3 +33,9 @@
 [Day 14: Regolith Reservoir](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2014:%20Regolith%20Reservoir/sand.py)
 
 [Day 15: Beacon Exclusion Zone](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2015:%20Beacon%20Exclusion%20Zone/beacon%20_sensors.py)
+
+[Day 16: Proboscidea Volcanium](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2016:%20Proboscidea%20Volcanium/max_flow.py)
+
+[Day 17: Pyroclastic Flow](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2017:%20Pyroclastic%20Flow/tetris.py)
+
+[Day 18: Boiling Boulders]()
