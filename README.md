@@ -38,4 +38,4 @@
 
 [Day 17: Pyroclastic Flow](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2017:%20Pyroclastic%20Flow/tetris.py)
 
-[Day 18: Boiling Boulders]()
+[Day 18: Boiling Boulders](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2018:%20Boiling%20Boulders/obsidian.py)
