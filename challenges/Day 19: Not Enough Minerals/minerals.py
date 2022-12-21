@@ -9,41 +9,43 @@ initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0) # initial state, only a ore
 # blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
 # state =
   # (ore, clay, obsidian) counts of resources
-  # (ore robot, clay robot, obsidian robot, geode robot)
+  # (ore_robot, clay_robot, obsidian_robot, geode_robot)
   # current_iteration
 # 
-
-geodas_by_state = lambda state: state[1][3]
 
 def next_resources_to_add(state): return (state[1][0], state[1][1], state[1][2])
 
 def possible_combinations(resources):
   res = set()
   ore, clay, _ = resources
-  for count_ore in range((ore // blueprint[0]) + 1):
-    for count_clay in range((clay // blueprint[1]) + 1):
-      for count_obsidian in range(min(ore // blueprint[2][0], clay // blueprint[2][1]) + 1):
+  max_count_ore = int(ore / blueprint[0])
+  max_count_clay = int(clay / blueprint[1])
+  max_count_obsidian = int(min(ore / blueprint[2][0], clay / blueprint[2][1]))
+
+  for count_ore in range(0, max_count_ore + 1):
+    for count_clay in range(0, max_count_clay + 1):
+      for count_obsidian in range(0, max_count_obsidian + 1):
         if ((count_ore * blueprint[0] + (count_obsidian * blueprint[2][0])) > ore): continue
         if ((count_clay * blueprint[1] + (count_obsidian * blueprint[2][1])) > clay): continue
-        # means the state is valid
+
         res.add((count_ore, count_clay, count_obsidian))
 
   return res
 
 def next_states(state):
   states = set()
-  ore, clay, obsidian = next_resources_to_add(state)
+  ore_to_increment, clay_to_increment, obsidian_to_icrement = next_resources_to_add(state)
   # priorizing build geode robot
-  c_geodes = min( state[0][0] // blueprint[3][0], state[0][2] // blueprint[3][1] )
+  c_geodes = int(min( state[0][0] / blueprint[3][0], state[0][2] / blueprint[3][1] ))
 
   rest_resources = (state[0][0] - (c_geodes * blueprint[3][0]), state[0][1], state[0][2] - (c_geodes * blueprint[3][1]))
   # rest_resources = (rest_ore, rest_clay, rest_obsidian)
   for variant in possible_combinations(rest_resources):
     c_ore, c_clay, c_obsidian = variant
     _resources = (
-      (rest_resources[0] - (c_ore * blueprint[0]) - (c_obsidian * blueprint[2][0])) + ore,
-      (rest_resources[1] - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][1])) + clay,
-      rest_resources[2] + obsidian
+      (rest_resources[0] - (c_ore * blueprint[0]) - (c_obsidian * blueprint[2][0])) + ore_to_increment,
+      (rest_resources[1] - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][1])) + clay_to_increment,
+      rest_resources[2] + obsidian_to_icrement
     )
 
     states.add((
@@ -55,11 +57,11 @@ def next_states(state):
   return states
 
 def simulate(state):
-  if (state[2] == minutes): return 0
-  if (state not in memo): memo[state] = geodas_by_state(state) + max(map(simulate, next_states(state)))
+  if (state[2] >= minutes): return 0
+  if (state not in memo): memo[state] = state[1][3] + max(map(simulate, next_states(state)))
   return memo[state]
 
-simulate_blueprint = lambda: simulate(initial_state())
+def simulate_blueprint(): global memo; memo = {}; return simulate(initial_state())
 
 with open(input_path) as f:
   index = 1
@@ -74,7 +76,6 @@ with open(input_path) as f:
     geode_robot = (int(geode_robot_split[0][-5]), int(geode_robot_split[1].split(' ')[0]))
 
     blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
-    memo = {}
     sum += simulate_blueprint() * index
     index += 1
 
