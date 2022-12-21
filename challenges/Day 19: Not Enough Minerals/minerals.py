@@ -3,7 +3,7 @@ input_path = 'advent_of_code_2022/challenges/Day 19: Not Enough Minerals/input0'
 blueprint = None
 minutes = 24
 sum = 0
-memo = []
+memo = {}
 initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0) # initial state, only a ore collector
 
 # blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
@@ -13,7 +13,8 @@ initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0) # initial state, only a ore
   # current_iteration
 # 
 
-geodas_by_state = lambda state: state[1]
+geodas_by_state = lambda state: state[1][3]
+
 def next_resources_to_add(state): return (state[1][0], state[1][1], state[1][2])
 
 def possible_combinations(resources):
@@ -40,22 +41,22 @@ def next_states(state):
   for variant in possible_combinations(rest_resources):
     c_ore, c_clay, c_obsidian = variant
     _resources = (
-      (state[0][0] - (c_ore * blueprint[0]) - (c_obsidian * blueprint[2][0])) + ore,
-      (state[0][1] - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][1])) + clay,
-      state[0][2] + obsidian
+      (rest_resources[0] - (c_ore * blueprint[0]) - (c_obsidian * blueprint[2][0])) + ore,
+      (rest_resources[1] - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][1])) + clay,
+      rest_resources[2] + obsidian
     )
 
     states.add((
       _resources,
       (state[1][0] + c_ore, state[1][1] + c_clay, state[1][2] + c_obsidian, state[1][3] + c_geodes),
-      state[2] - 1
+      state[2] + 1
     ))
 
   return states
 
 def simulate(state):
   if (state[2] == minutes): return 0
-  if (state not in memo): memo[state] = geodas_by_state(state + max(map(simulate, next_states(state))))
+  if (state not in memo): memo[state] = geodas_by_state(state) + max(map(simulate, next_states(state)))
   return memo[state]
 
 simulate_blueprint = lambda: simulate(initial_state())
@@ -73,6 +74,7 @@ with open(input_path) as f:
     geode_robot = (int(geode_robot_split[0][-5]), int(geode_robot_split[1].split(' ')[0]))
 
     blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
+    memo = {}
     sum += simulate_blueprint() * index
     index += 1
 
