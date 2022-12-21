@@ -4,29 +4,28 @@ blueprint = None
 minutes = 24
 sum = 0
 memo = {}
-initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0) # initial state, only a ore collector
-
 # blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
 # state =
-  # (ore, clay, obsidian) counts of resources
-  # (ore_robot, clay_robot, obsidian_robot, geode_robot)
-  # current_iteration
-# 
+  # (ore, clay, obsidian) resources
+  # (ore_robot, clay_robot, obsidian_robot, geode_robot) robots
+  # current_iteration it
+#
+
+initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0)
 
 def next_resources_to_add(state): return (state[1][0], state[1][1], state[1][2])
-
 def possible_combinations(resources):
   res = set()
   ore, clay, _ = resources
   max_count_ore = int(ore / blueprint[0])
-  max_count_clay = int(clay / blueprint[1])
+  max_count_clay = int(ore / blueprint[1])
   max_count_obsidian = int(min(ore / blueprint[2][0], clay / blueprint[2][1]))
 
   for count_ore in range(0, max_count_ore + 1):
     for count_clay in range(0, max_count_clay + 1):
       for count_obsidian in range(0, max_count_obsidian + 1):
-        if ((count_ore * blueprint[0] + (count_obsidian * blueprint[2][0])) > ore): continue
-        if ((count_clay * blueprint[1] + (count_obsidian * blueprint[2][1])) > clay): continue
+        if ((count_ore * blueprint[0] + (count_clay * blueprint[1]) + (count_obsidian * blueprint[2][0])) > ore): continue
+        if ((count_obsidian * blueprint[2][1]) > clay): continue
 
         res.add((count_ore, count_clay, count_obsidian))
 
@@ -35,16 +34,16 @@ def possible_combinations(resources):
 def next_states(state):
   states = set()
   ore_to_increment, clay_to_increment, obsidian_to_icrement = next_resources_to_add(state)
+
   # priorizing build geode robot
   c_geodes = int(min( state[0][0] / blueprint[3][0], state[0][2] / blueprint[3][1] ))
 
   rest_resources = (state[0][0] - (c_geodes * blueprint[3][0]), state[0][1], state[0][2] - (c_geodes * blueprint[3][1]))
-  # rest_resources = (rest_ore, rest_clay, rest_obsidian)
   for variant in possible_combinations(rest_resources):
     c_ore, c_clay, c_obsidian = variant
     _resources = (
-      (rest_resources[0] - (c_ore * blueprint[0]) - (c_obsidian * blueprint[2][0])) + ore_to_increment,
-      (rest_resources[1] - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][1])) + clay_to_increment,
+      (rest_resources[0] - (c_ore * blueprint[0]) - (c_clay * blueprint[1]) - (c_obsidian * blueprint[2][0])) + ore_to_increment,
+      (rest_resources[1] - (c_obsidian * blueprint[2][1])) + clay_to_increment,
       rest_resources[2] + obsidian_to_icrement
     )
 
