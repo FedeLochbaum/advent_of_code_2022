@@ -1,7 +1,6 @@
 input_path = 'advent_of_code_2022/challenges/Day 19: Not Enough Minerals/input0'
-
 blueprint = None
-minutes = 21 # hasta 20 puede explorar
+minutes = 24 # hasta 20 puede explorar
 sum = 0
 memo = {}
 
@@ -17,7 +16,7 @@ initial_state = lambda: ((0, 0, 0), (1, 0, 0, 0), 0)
 def next_resources_to_add(state): return (state[1][0], state[1][1], state[1][2])
 
 def next_states(state):
-  states = set()
+  states = []
   next_turn = state[2] + 1
   ore_to_increment, clay_to_increment, obsidian_to_icrement = next_resources_to_add(state)
 
@@ -37,7 +36,7 @@ def next_states(state):
   max_count_clay = int(ore / blueprint[1])
 
   for count_ore in range(0, max_count_ore + 1):
-    for count_clay in range(0, max_count_clay + 1):
+    for count_clay in range(0, max_count_clay +1):
       if ((count_ore * blueprint[0] + (count_clay * blueprint[1])) > ore): continue
       
       _resources = (
@@ -46,17 +45,21 @@ def next_states(state):
         next_obsidian
       )
 
-      states.add((
+      states.append((
         _resources,
         (state[1][0] + count_ore, state[1][1] + count_clay, state[1][2] + count_obsidian, state[1][3] + c_geodes),
         next_turn
       ))
 
-  return states
+  return states[:2]
 
 def simulate(state):
-  if (state[2] >= minutes): return 0
-  if (state not in memo): memo[state] = state[1][3] + max(map(simulate, next_states(state)))
+  if (state[2] == minutes): return 0
+  if (state not in memo):
+    _max = 0
+    for s in next_states(state):
+      _max = max(_max, simulate(s))
+    memo[state] = state[1][3] + _max
   return memo[state]
 
 def simulate_blueprint(): global memo; memo = {}; return simulate(initial_state())
@@ -74,8 +77,9 @@ with open(input_path) as f:
     geode_robot = (int(geode_robot_split[0][-5]), int(geode_robot_split[1].split(' ')[0]))
 
     blueprint = (ore_robot, clay_robot, obsidian_robot, geode_robot)
-    sum += simulate_blueprint() * index
+    simulation = simulate_blueprint()
+    print('simulation: ', simulation)
+    sum += simulation * index
     index += 1
-    break
 
 print('Part 1: ', sum)
