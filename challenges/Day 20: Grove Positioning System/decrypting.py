@@ -7,9 +7,8 @@ L = 5000
 with open(input_path) as f:
   for line in f:
     n = int(line[:-1])
-    N = (abs(n) % L) * (-1 if n < 0 else 1)
-    numbers[N] = (array.__len__(), 0)
-    array.append(N)
+    numbers[n] = (array.__len__(), 0)
+    array.append(n)
 
 def shift_to(array, _from, dir):
   temp = array[_from]
@@ -21,10 +20,10 @@ def shift_to(array, _from, dir):
 
 def get_move(pos, n):
   # <-
-  if (n < 0): return [( (L - 1) - ( abs(n) - pos ) ) - pos, 1] if (pos + n) < 0 else [n, -1]
+  if (n < 0): return [( L - ( abs(n) - pos ) ) - pos - 1, 1] if (pos + n) <= 0 else [n, -1]
 
   # ->
-  return  [pos - ( n - ( L - pos ) ), -1] if (pos + n) >= L else [n, 1]
+  return [pos - ( n - ( L - pos ) ) - 1, -1] if (pos + n) >= L else [n, 1]
 
 def shift_number(array, _from, n):
   count, dir = get_move(_from, n)
@@ -35,15 +34,14 @@ def shift_number(array, _from, n):
 def mix_numbers():
   copy = array.copy()
   for i in range(len(array)):
-  
     cur_pos = (numbers[array[i]][0] +  numbers[array[i]][1]) % len(array)
     shift_number(copy, cur_pos, array[i])
   return copy
 
 L = len(array)
 new_array = mix_numbers()
+print('new array: ', new_array)
 i = new_array.index(0)
-print(new_array)
 ns = [new_array[(i + 1000) % L], new_array[(i + 2000) % L], new_array[(i + 3000) % L]]
 print('Part 1: ',  sum(ns))
 
