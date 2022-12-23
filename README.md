@@ -41,3 +41,5 @@
 [Day 18: Boiling Boulders](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2018:%20Boiling%20Boulders/obsidian.py)
 
 [Day 19: Not Enough Minerals](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2019:%20Not%20Enough%20Minerals/minerals.py)
+
+[Day 20: Grove Positioning System](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2020:%20Grove%20Positioning%20System/decrypting.py)
