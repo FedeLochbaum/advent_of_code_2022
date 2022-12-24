@@ -45,3 +45,5 @@
 [Day 20: Grove Positioning System](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2020:%20Grove%20Positioning%20System/decrypting.py)
 
 [Day 21: Monkey Math](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2021:%20Monkey%20Math/riddle.py)
+
+[Day 22: Monkey Map](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2022:%20Monkey%20Map/force_field.py)
