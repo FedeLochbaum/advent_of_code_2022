@@ -25,18 +25,15 @@ def first_bottom_row(r, c):
     if _r == len(screen.keys()) - 1: return _r
     
     shift, row = screen[_r]
-    if not is_in_range(c - shift, row): break
-    
-    return _r - 1
+    if (not is_in_range(c - shift, row)): return _r - 1
 
 def first_top_row(r, c):
-  for _r in reversed(range(0, r -1)):
+  for _r in reversed(range(0, r - 1)):
     if _r == 0: return _r
     
     shift, row = screen[_r]
-    if not is_in_range(c - shift, row): break
-    
-    return _r + 1
+    if (not is_in_range(c - shift, row)): return _r + 1
+
 
 def next_pos_wrapping(r, c):
   shift, row = screen[r]
@@ -91,12 +88,9 @@ with open(input_path) as f:
     screen[row] = (first_col, list(line[first_col:-1]))
     row += 1
 
-for inst in instructions[:11]: # TODO: To test for inst in instructions:
-  print('pos: ', pos, 'inst: ', inst)
+for inst in instructions:
   if (type(inst) == int):
     pos = move_forward(inst, pos)
   else: turn_to(inst)
 
-print('termina con pos: ', pos, 'facing: ', facing)
-
-# print('Part 1: ', 1000 * (pos[0] + 1) + 4 * (pos[1] + 1) + facing)
+print('Part 1: ', 1000 * (pos[0] + 1) + 4 * (pos[1] + 1) + facing)
