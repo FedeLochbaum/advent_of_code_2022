@@ -20,6 +20,18 @@ with open(input_path) as f:
 
 initial_point = (-1, 0) # The unique moment where this point is valid
 goal = (row_size, col_size - 1) # Goal to achieve
-graph = BlizzardMap(blizzards, row_size, col_size)
-h = lambda point: int(math.dist(goal, point))
-print('Part 1: ', a_star(graph, initial_point, h) - 1)
+
+h1 = lambda point: int(math.dist(goal, point))
+h2 = lambda point: int(math.dist(initial_point, point))
+
+graph1 = BlizzardMap(blizzards, row_size, col_size, initial_point, goal)
+first_part = a_star(graph1, initial_point, h1) - 1
+
+graph2 = BlizzardMap(graph1.blizzards[first_part], row_size, col_size, goal, initial_point)
+second_part = a_star(graph2, goal, h2) - 1
+
+graph3 = BlizzardMap(graph2.blizzards[second_part], row_size, col_size, initial_point, goal)
+third_part = a_star(graph3, initial_point, h1) - 1
+
+print('Part 1: ', first_part)
+print('Part 2: ', first_part + second_part + third_part)

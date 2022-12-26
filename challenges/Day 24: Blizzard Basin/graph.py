@@ -23,18 +23,17 @@ def print_map(_blizzards, char, row_size, col_size):
     print(''.join([elem_to_print(r, c, char, _blizzards) for c in range(1, col_size)]))
 
 class BlizzardMap:
-  def __init__(self, blizzards, row_size, col_size):
+  def __init__(self, blizzards, row_size, col_size, initial_pos, goal):
     self.row_size = row_size
     self.col_size = col_size
-    self.goal = (row_size, col_size - 1)
-    self.initial_point = (-1, 0)
+    self.initial_pos = initial_pos
+    self.goal = goal
     self.max_time = 230
     self.blizzards = self.precompute_blizzards(blizzards, self.max_time)
 
   def precompute_blizzards(self, blizzards, times):
     computed = [blizzards]
-    for _ in range(times):
-      computed.append(self.next_state(computed[-1]))
+    for _ in range(times): computed.append(self.next_state(computed[-1]))
     return computed
 
   def move(self, point):
@@ -48,13 +47,13 @@ class BlizzardMap:
   def __getitem__(self, node):
     pos, time = node
     next_positions = []
-    if pos == self.initial_point: return [(0, 0)]
     if (time <= self.max_time): # Limiting the depth
       blizzard = self.blizzards[time] # Using precomputed state by minute :)
       for m in possible_movements:
         _pos = (pos[0] + m[0], pos[1] + m[1])
 
         # If is the goal, go ahead!
+        if _pos == self.initial_pos: next_positions.append(_pos); continue
         if _pos == self.goal: return [_pos]
 
         # Impossible movements
