@@ -1,5 +1,6 @@
 UP = '^'; DOWN = 'v'; LEFT = '<'; RIGHT = '>'
 next = { UP: (-1, 0), DOWN: (1, 0), LEFT: (0, -1), RIGHT: (0, 1) }
+possible_movements = [(0, 0), (-1, 0), (1, 0), (0, -1), (0, 1)]
 
 def fix_row(row, row_size):
   if row == -1: return row_size - 1
@@ -26,15 +27,14 @@ class BlizzardMap:
     self.row_size = row_size
     self.col_size = col_size
     self.goal = (row_size, col_size - 1)
+    self.initial_point = (-1, 0)
     self.max_time = 300
     self.blizzards = self.precompute_blizzards(blizzards, self.max_time)
 
   def precompute_blizzards(self, blizzards, times):
-    computed = []
-    _blizzards = blizzards
+    computed = [blizzards]
     for _ in range(times):
-      _blizzards = self.next_state(_blizzards)
-      computed.append(_blizzards)
+      computed.append(self.next_state(computed[-1]))
     return computed
 
   def move(self, point):
@@ -43,24 +43,24 @@ class BlizzardMap:
     return (point[0], p)
 
   def next_state(self, blizzards): return list(map(self.move, blizzards))
+  def print_map(self, char, time): print_map(self.blizzards[time - 1], char, self.row_size, self.col_size)
 
   def __getitem__(self, node):
     pos, time = node
     next_positions = []
-    if (time < self.max_time):
+    if pos == self.initial_point: return [(0, 0)]
+    if (time <= self.max_time): # Limiting the depth
       blizzard = self.blizzards[time] # Using precomputed state by minute :)
-      for n in next.values():
-        _pos = (pos[0] + n[0], pos[1] + n[1])
+      for m in possible_movements:
+        _pos = (pos[0] + m[0], pos[1] + m[1])
 
-        if _pos == self.goal: next_positions.append(_pos); continue
+        # If is the goal, go ahead!
+        if _pos == self.goal: return [_pos]
 
         # Impossible movements
-        if _pos in blizzard: continue
+        if (_pos in list(map(lambda x: x[1], blizzard))): continue
         if _pos[0] < 0 or _pos[0] >= self.row_size: continue
         if _pos[1] < 0 or _pos[1] >= self.col_size: continue
         
         next_positions.append(_pos)
-      
-      # Adding stay movement if the time is not too much
-      next_positions.append(pos)
     return next_positions

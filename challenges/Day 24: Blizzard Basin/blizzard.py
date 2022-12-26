@@ -22,6 +22,4 @@ initial_point = (-1, 0) # The unique moment where this point is valid
 goal = (row_size, col_size - 1) # Goal to achieve
 graph = BlizzardMap(blizzards, row_size, col_size)
 h = lambda point: int(math.dist(goal, point))
-print('inicial: ', initial_point)
-print('goal: ', goal)
-print('Part 1: ', a_star(graph, initial_point, h))
+print('Part 1: ', a_star(graph, initial_point, h) - 1)
