@@ -28,7 +28,7 @@ class BlizzardMap:
     self.col_size = col_size
     self.initial_pos = initial_pos
     self.goal = goal
-    self.max_time = 230
+    self.max_time = 300
     self.blizzards = self.precompute_blizzards(blizzards, self.max_time)
 
   def precompute_blizzards(self, blizzards, times):
