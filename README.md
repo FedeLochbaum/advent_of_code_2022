@@ -47,3 +47,5 @@
 [Day 21: Monkey Math](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2021:%20Monkey%20Math/riddle.py)
 
 [Day 22: Monkey Map](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2022:%20Monkey%20Map/force_field.py)
+
+[Day 23: Unstable Diffusion](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2023:%20Unstable%20Diffusion/plants.py)

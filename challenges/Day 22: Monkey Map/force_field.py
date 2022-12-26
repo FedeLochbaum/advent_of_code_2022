@@ -62,7 +62,6 @@ wrapping = {
 
 def next_pos_wrapping(pos):
   global facing
-  shift, _ = screen[pos[0]]
   region = region_by_point(pos)
   _r = pos[0] - REGIONS[region][0]
   _c = pos[1] - REGIONS[region][1]
