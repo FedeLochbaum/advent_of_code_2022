@@ -11,11 +11,7 @@ class Check():
     self.dirs = dirs
     self.dir = dir
 
-  def check(self, elf):
-    for dir in self.dirs:
-      if (elf[0] + dir[0], elf[1] + dir[1]) not in elfs: return True
-
-    return False
+  def check(self, elf): return all(map(lambda dir: (elf[0] + dir[0], elf[1] + dir[1]) not in elfs, self.dirs))
   
   def next(self, elf): return (elf[0] + self.dir[0], elf[1] + self.dir[1])
 
@@ -49,7 +45,7 @@ def round(elfs):
         copy_elfs.remove(elf)
 
       copy_elfs.append(_pos)
-  return copy_elfs
+  return True, copy_elfs
 
 with open(input_path) as f:
   row = 0
@@ -59,8 +55,10 @@ with open(input_path) as f:
       if (r[col] == '#'): elfs.append((row, col))
     row += 1
 
-for _ in range(rounds):
-  elfs = round(elfs)
+for i in range(rounds):
+  r, _elfs = round(elfs)
+  if(not r): print('Part 2: ', i + 1); break
+  elfs = _elfs
   movements.append(movements.popleft())
 
 min_row = float('inf'); min_col = float('inf'); max_row = 0; max_col = 0
@@ -76,7 +74,7 @@ for r in range(min_row, max_row + 1):
   for c in range(min_col, max_col + 1):
     if (r, c) not in elfs: empty_tiles += 1
 
-for r in range(min_row, max_row + 1): print(''.join([ele_for(r, c) for c in range(min_col, max_col + 1)]))
+# for r in range(min_row, max_row + 1): print(''.join([ele_for(r, c) for c in range(min_col, max_col + 1)]))
 
 print('Part 1: ', empty_tiles)
 
