@@ -51,3 +51,5 @@
 [Day 23: Unstable Diffusion](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2023:%20Unstable%20Diffusion/plants.py)
 
 [Day 24: Blizzard Basin](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2024:%20Blizzard%20Basin/blizzard.py)
+
+[Day 25: Full of Hot Air](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2025:%20Full%20of%20Hot%20Air/fuel_requirements.py)
