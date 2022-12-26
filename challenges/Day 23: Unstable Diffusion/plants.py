@@ -1,6 +1,5 @@
 input_path = 'advent_of_code_2022/challenges/Day 23: Unstable Diffusion/input'
 from collections import deque
-from copy import deepcopy
 
 elfs = []; rounds = 10
 N = (-1, 0); NE = (-1, 1); E = (0, 1); SE = (1, 1); S = (1, 0); SW = (1, -1); W = (0, -1); NW = (-1, -1)
@@ -11,49 +10,45 @@ class Check():
     self.dirs = dirs
     self.dir = dir
 
-  def check(self, elf): return all(map(lambda dir: (elf[0] + dir[0], elf[1] + dir[1]) not in elfs, self.dirs))
+  def check(self, elf):
+    for dir in self.dirs:
+      if (elf[0] + dir[0], elf[1] + dir[1]) in elfs: return False
+    return True
   def next(self, elf): return (elf[0] + self.dir[0], elf[1] + self.dir[1])
 
+NonCheck = Check(DIRS, None)
 movements = deque([ Check([N, NE, NW], N), Check([S, SE, SW], S), Check([W, NW, SW], W), Check([E, NE, SE], E) ])
 ele_for = lambda r, c: '#' if (r, c) in elfs else '.'
 
 def next_movement_for(elf):
-  if '#' not in map(lambda p: ele_for(elf[0] + p[0], elf[1] + p[1]), DIRS): return None
+  if NonCheck.check(elf): return None
 
   for move in movements:
     if move.check(elf): return move.next(elf)
 
-def any_move(next_spaces):
-  for val in next_spaces.values():
-    if len(val) == 1: return True
-
-  return False
-
 def considering_next_movements(elfs):
   next_spaces = {}
+  not_valids = []
   for elf in elfs:
     m = next_movement_for(elf)
-    if (m == None): continue # Nothing to do now
-    if (m not in next_spaces): next_spaces[m] = []
-    next_spaces[m].append(elf)
+    if (m == None or m in not_valids): continue # Nothing to do now
+    if (m in next_spaces): del next_spaces[m]; not_valids.append(m); continue
 
-  return any_move(next_spaces), next_spaces
+    next_spaces[m] = elf
+
+  return len(next_spaces) > 0, next_spaces
 
 def round(elfs):
   r, nexts_spaces = considering_next_movements(elfs) # { pos: [elf_pos_1, ..., elf_pos_i] }
   if (not r): return False, []
 
-  copy_elfs = deepcopy(elfs)
-
   for _pos in nexts_spaces.keys():
-    interested_elfs = nexts_spaces[_pos]
-    if (len(interested_elfs) == 1):
-      elf = interested_elfs[0]
-      if (elf not in nexts_spaces):
-        copy_elfs.remove(elf)
+    interested_elf = nexts_spaces[_pos]
+    if (interested_elf not in nexts_spaces):
+      elfs.remove(interested_elf)
 
-      copy_elfs.append(_pos)
-  return True, copy_elfs
+    elfs.append(_pos)
+  return True, elfs
 
 with open(input_path) as f:
   row = 0
