@@ -1,4 +1,4 @@
-input_path = 'advent_of_code_2022/challenges/Day 23: Unstable Diffusion/input0'
+input_path = 'advent_of_code_2022/challenges/Day 23: Unstable Diffusion/input'
 from collections import deque
 from copy import deepcopy
 
@@ -12,7 +12,6 @@ class Check():
     self.dir = dir
 
   def check(self, elf): return all(map(lambda dir: (elf[0] + dir[0], elf[1] + dir[1]) not in elfs, self.dirs))
-  
   def next(self, elf): return (elf[0] + self.dir[0], elf[1] + self.dir[1])
 
 movements = deque([ Check([N, NE, NW], N), Check([S, SE, SW], S), Check([W, NW, SW], W), Check([E, NE, SE], E) ])
@@ -24,6 +23,12 @@ def next_movement_for(elf):
   for move in movements:
     if move.check(elf): return move.next(elf)
 
+def any_move(next_spaces):
+  for val in next_spaces.values():
+    if len(val) == 1: return True
+
+  return False
+
 def considering_next_movements(elfs):
   next_spaces = {}
   for elf in elfs:
@@ -31,10 +36,13 @@ def considering_next_movements(elfs):
     if (m == None): continue # Nothing to do now
     if (m not in next_spaces): next_spaces[m] = []
     next_spaces[m].append(elf)
-  return next_spaces
+
+  return any_move(next_spaces), next_spaces
 
 def round(elfs):
-  nexts_spaces = considering_next_movements(elfs) # { pos: [elf_pos_1, ..., elf_pos_i] }
+  r, nexts_spaces = considering_next_movements(elfs) # { pos: [elf_pos_1, ..., elf_pos_i] }
+  if (not r): return False, []
+
   copy_elfs = deepcopy(elfs)
 
   for _pos in nexts_spaces.keys():
@@ -55,7 +63,7 @@ with open(input_path) as f:
       if (r[col] == '#'): elfs.append((row, col))
     row += 1
 
-for i in range(rounds):
+for i in range(1000):
   r, _elfs = round(elfs)
   if(not r): print('Part 2: ', i + 1); break
   elfs = _elfs
@@ -74,8 +82,4 @@ for r in range(min_row, max_row + 1):
   for c in range(min_col, max_col + 1):
     if (r, c) not in elfs: empty_tiles += 1
 
-# for r in range(min_row, max_row + 1): print(''.join([ele_for(r, c) for c in range(min_col, max_col + 1)]))
-
 print('Part 1: ', empty_tiles)
-
-# 4656 to high
