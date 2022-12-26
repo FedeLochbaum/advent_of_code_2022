@@ -13,10 +13,18 @@ def fix_col(col, col_size):
 
 class BlizzardMap:
   def __init__(self, blizzards, row_size, col_size):
-    self.graph = {}
-    self.blizzards = blizzards
     self.row_size = row_size
     self.col_size = col_size
+    self.goal = (row_size, col_size - 1)
+    self.blizzards = self.precompute_blizzards(blizzards, 1000)
+
+  def precompute_blizzards(self, blizzards, times):
+    computed = []
+    _blizzards = blizzards
+    for _ in range(times):
+      _blizzards = self.next_state(_blizzards)
+      computed.append(_blizzards)
+    return computed
 
   def move(self, point):
     add = next[point[0]];
@@ -25,11 +33,19 @@ class BlizzardMap:
 
   def next_state(self, blizzards): return list(map(self.move, blizzards))
 
-  def __getitem__(self, node):
-    str_node = str(node)
-    if str_node not in self.graph:
-      self.graph[str_node] = {}
-      for op in operations(node):
-        self.graph[str_node].update({ op[0]: compute_next_state(node, op) })
+  def __getitem__(self, pos, l):
+    next_positions = []
+    blizzard = self.blizzards[l] # Using precomputed state by minute :)
+    for n in next.values():
+      _pos = (pos[0] + n[0], pos[1] + n[1])
 
-    return self.graph[str_node]
+      if _pos == self.goal: next_positions.add(_pos); continue
+
+      # Impossible movements
+      if _pos in blizzard: continue
+      if _pos[0] < 0 or _pos[0] >= self.row_size: continue
+      if _pos[1] < 0 or _pos[1] >= self.col_size: continue
+      
+      next_positions.add(_pos)
+
+    return next_positions
