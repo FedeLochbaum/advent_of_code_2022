@@ -1,4 +1,4 @@
-input_path = 'advent_of_code_2022/challenges/Day 24: Blizzard Basin/input'
+input_path = 'advent_of_code_2022/challenges/Day 24: Blizzard Basin/input0'
 from a_star import a_star
 from graph import BlizzardMap
 import math
@@ -30,5 +30,5 @@ with open(input_path) as f:
 initial_point = (-1, 0) # The unique moment where the point is valid
 goal = (row_size, col_size - 1) # Goal to achieve
 graph = BlizzardMap(blizzards, row_size, col_size)
-# h = lambda point: math.dist(goal, point)
-# print('Part 1: ', a_star(graph, initial_point, h))
+h = lambda point: math.dist(goal, point)
+print('Part 1: ', a_star(graph, initial_point, h))
