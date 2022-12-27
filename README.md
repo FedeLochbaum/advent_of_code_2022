@@ -52,4 +52,4 @@
 
 [Day 24: Blizzard Basin](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2024:%20Blizzard%20Basin/blizzard.py)
 
-[Day 25: Full of Hot Air](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2025:%20Full%20of%20Hot%20Air/fuel_requirements.py)
+[Day 25: Full of Hot Air](https://github.com/FedeLochbaum/advent_of_code_2022/blob/main/challenges/Day%2025:%20Full%20of%20Hot%20Air/bob.py)
